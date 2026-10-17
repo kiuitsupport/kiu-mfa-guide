@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIU - Microsoft 365 & MFA Guide (EN / KA)</title>
+  <style>
+    :root {
+      --kiu-navy: #0f2d59;
+      --kiu-blue: #255799;
+      --ms-blue: #0067b8;
+      --accent: #059669;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      user-select: none; /* ტექსტის უბრალოდ მონიშვნის დაკოპირების შეზღუდვა ვიზუალურად */
+    }
+
+    body {
+      background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 12px;
+    }
+
+    input[type="radio"].state-ctrl { display: none; }
+
+    /* Language Visibility (Default: English) */
+    #lang-ka:checked ~ .container .en { display: none !important; }
+    #lang-en:checked ~ .container .ka { display: none !important; }
+
+    #lang-ka:checked ~ .container .lang-btn[for="lang-ka"],
+    #lang-en:checked ~ .container .lang-btn[for="lang-en"] {
+      background: #ffffff;
+      color: var(--kiu-navy);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.1);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--kiu-navy) 0%, var(--kiu-blue) 100%);
+      color: #fff;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 16px; }
+
+    .kiu-logo-box {
+      width: 56px; height: 56px; background: #fff; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; }
+    .header p { font-size: 0.88rem; opacity: 0.88; margin-top: 4px; }
+
+    .lang-switch {
+      display: flex; background: rgba(255,255,255,0.15); padding: 4px;
+      border-radius: 12px; gap: 4px; backdrop-filter: blur(4px);
+    }
+
+    .lang-btn {
+      padding: 7px 14px; border-radius: 9px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; color: #fff; transition: all 0.2s ease;
+    }
+
+    .progress-wrapper {
+      padding: 20px 32px 0; background: #f8fafc; border-bottom: 1px solid var(--border);
+    }
+
+    .steps-indicator {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .steps-indicator { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .step-pill {
+      padding: 10px 8px; border-radius: 10px; font-size: 0.78rem; font-weight: 600;
+      color: var(--muted); background: #fff; border: 1px solid var(--border);
+      cursor: pointer; text-align: center; transition: all 0.2s ease;
+    }
+
+    .step-pill:hover { border-color: var(--kiu-blue); color: var(--kiu-navy); }
+
+    #s1:checked ~ .container .pill-1,
+    #s2:checked ~ .container .pill-2,
+    #s3:checked ~ .container .pill-3,
+    #s4:checked ~ .container .pill-4,
+    #s5:checked ~ .container .pill-5,
+    #s6:checked ~ .container .pill-6 {
+      background: var(--ms-blue); color: #fff; border-color: var(--ms-blue);
+      box-shadow: 0 4px 14px rgba(0, 103, 184, 0.3);
+    }
+
+    .progress-bar-bg { height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-bottom: 16px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--ms-blue), var(--accent)); transition: width 0.4s ease; }
+
+    #s1:checked ~ .container .progress-bar-fill { width: 16.66%; }
+    #s2:checked ~ .container .progress-bar-fill { width: 33.33%; }
+    #s3:checked ~ .container .progress-bar-fill { width: 50.00%; }
+    #s4:checked ~ .container .progress-bar-fill { width: 66.66%; }
+    #s5:checked ~ .container .progress-bar-fill { width: 83.33%; }
+    #s6:checked ~ .container .progress-bar-fill { width: 100%; }
+
+    .step-panel {
+      display: none; grid-template-columns: 1.1fr 0.9fr; gap: 32px; padding: 32px; min-height: 420px; align-items: center; animation: fadeIn 0.35s ease;
+    }
+
+    #s1:checked ~ .container .panel-1,
+    #s2:checked ~ .container .panel-2,
+    #s3:checked ~ .container .panel-3,
+    #s4:checked ~ .container .panel-4,
+    #s5:checked ~ .container .panel-5,
+    #s6:checked ~ .container .panel-6 { display: grid; }
+
+    @media (max-width: 820px) {
+      #s1:checked ~ .container .panel-1,
+      #s2:checked ~ .container .panel-2,
+      #s3:checked ~ .container .panel-3,
+      #s4:checked ~ .container .panel-4,
+      #s5:checked ~ .container .panel-5,
+      #s6:checked ~ .container .panel-6 { grid-template-columns: 1fr; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .phase-tag {
+      display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;
+      color: var(--ms-blue); background: #eff6ff; padding: 5px 12px; border-radius: 8px; margin-bottom: 12px;
+    }
+
+    .step-title { font-size: 1.35rem; margin-bottom: 12px; color: var(--text); }
+    .step-desc { font-size: 0.94rem; line-height: 1.6; color: var(--muted); margin-bottom: 16px; }
+
+    .instruction-list { list-style: none; }
+    .instruction-list li {
+      position: relative; padding-left: 28px; margin-bottom: 11px; font-size: 0.92rem; line-height: 1.5;
+    }
+    .instruction-list li::before {
+      content: "✓"; position: absolute; left: 0; top: 2px; width: 20px; height: 20px;
+      background: #dbeafe; color: var(--ms-blue); border-radius: 50%; font-size: 0.72rem;
+      font-weight: bold; display: flex; align-items: center; justify-content: center;
+    }
+
+    .pwd-checker {
+      background: #f8fafc; border: 1px solid var(--border); padding: 14px; border-radius: 12px; margin-top: 12px;
+    }
+    .pwd-checker input {
+      width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.88rem; margin-bottom: 8px; outline: none;
+    }
+    .rule-item { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .rule-item.valid { color: var(--accent); font-weight: 600; }
+
+    .alert-box {
+      background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px 14px;
+      border-radius: 8px; font-size: 0.82rem; color: #92400e; margin-top: 12px; line-height: 1.45;
+    }
+
+    .app-download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+    .store-link-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px; background: #0f172a;
+      color: #fff; text-decoration: none; padding: 10px 14px; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .store-link-btn:hover { background: var(--ms-blue); }
+
+    .mockup-stage {
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      border-radius: 18px; padding: 24px; min-height: 340px; display: flex; align-items: center; justify-content: center;
+    }
+
+    .browser-card {
+      background: #fff; color: var(--text); width: 100%; max-width: 320px; border-radius: 14px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .browser-top { background: #e2e8f0; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .dot.r { background: #ef4444; } .dot.y { background: #f59e0b; } .dot.g { background: #10b981; }
+    .url-bar { background: #fff; font-size: 0.72rem; color: var(--muted); padding: 3px 8px; border-radius: 4px; flex: 1; margin-left: 4px; }
+    .browser-body { padding: 20px; }
+
+    .fake-input {
+      border-bottom: 2px solid var(--ms-blue); padding: 7px 6px; font-size: 0.88rem; color: #0f172a; margin: 10px 0 16px; background: #f8fafc;
+    }
+    .typing-text {
+      display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--ms-blue);
+      animation: typing 2.5s steps(22, end) infinite alternate;
+    }
+    @keyframes typing { 0% { max-width: 0; } 70%, 100% { max-width: 210px; } }
+
+    .ms-btn {
+      background: var(--ms-blue); color: #fff; padding: 7px 18px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-block;
+    }
+
+    .realistic-qr-container {
+      width: 130px; height: 130px; margin: 12px auto; background: #ffffff; padding: 8px; border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .qr-grid-sim {
+      width: 100%; height: 100%; display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(7, 1fr); gap: 3px; background: #0f172a; padding: 4px; border-radius: 6px;
+    }
+    .qr-cell { background: #ffffff; border-radius: 1px; }
+    .qr-cell.dark { background: #0f172a; }
+    .qr-cell.corner-tl, .qr-cell.corner-tr, .qr-cell.corner-bl { background: #0067b8; border-radius: 3px; }
+
+    .scan-laser {
+      position: absolute; left: 8px; right: 8px; height: 3px; background: #ef4444; box-shadow: 0 0 10px #ef4444; animation: scanMove 2s ease-in-out infinite alternate;
+    }
+    @keyframes scanMove { from { top: 14px; } to { top: 112px; } }
+
+    .dual-code { display: flex; gap: 12px; width: 100%; }
+    .code-box-card { background: #fff; color: var(--text); border-radius: 12px; padding: 14px; text-align: center; flex: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .code-box-card.dark { background: #1e293b; color: #fff; border: 2px solid #38bdf8; }
+    .num-badge { font-size: 1.5rem; font-weight: 800; border: 2px solid currentColor; display: inline-block; padding: 4px 14px; border-radius: 8px; margin: 8px 0; }
+
+    .footer-nav { padding: 18px 32px; background: #f8fafc; border-top: 1px solid var(--border); }
+    .nav-row { display: none; justify-content: space-between; align-items: center; }
+
+    #s1:checked ~ .container .nav-1,
+    #s2:checked ~ .container .nav-2,
+    #s3:checked ~ .container .nav-3,
+    #s4:checked ~ .container .nav-4,
+    #s5:checked ~ .container .nav-5,
+    #s6:checked ~ .container .nav-6 { display: flex; }
+
+    .nav-btn {
+      padding: 10px 22px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-prev { background: #e2e8f0; color: #334155; }
+    .btn-next { background: var(--ms-blue); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Language State Radios (Default: English) -->
+  <input type="radio" name="lang" id="lang-ka" class="state-ctrl">
+  <input type="radio" name="lang" id="lang-en" class="state-ctrl" checked>
+
+  <!-- Step State Radios -->
+  <input type="radio" name="step" id="s1" class="state-ctrl" checked>
+  <input type="radio" name="step" id="s2" class="state-ctrl">
+  <input type="radio" name="step" id="s3" class="state-ctrl">
+  <input type="radio" name="step" id="s4" class="state-ctrl">
+  <input type="radio" name="step" id="s5" class="state-ctrl">
+  <input type="radio" name="step" id="s6" class="state-ctrl">
+
+  <div class="container">
+    <div class="header">
+      <div class="brand">
+        <div class="kiu-logo-box" title="Kutaisi International University">
+          <svg viewBox="0 0 100 100" width="38" height="38">
+            <circle cx="29" cy="24" r="7.5" fill="#0f2d59"/>
+            <circle cx="29" cy="50" r="7.5" fill="#255799"/>
+            <circle cx="29" cy="76" r="7.5" fill="#0f2d59"/>
+            <path d="M58 16.5 L79 16.5 L54.5 41 A7.4 7.4 0 0 1 44 30.5 Z" fill="#255799"/>
+            <path d="M58 83.5 L79 83.5 L54.5 59 A7.4 7.4 0 0 0 44 69.5 Z" fill="#0f2d59"/>
+          </svg>
+        </div>
+        <div>
+          <h1>
+            <span class="ka">ქუთაისის საერთაშორისო უნივერსიტეტი (KIU)</span>
+            <span class="en">Kutaisi International University (KIU)</span>
+          </h1>
+          <p>
+            <span class="ka">Microsoft 365 პაროლის შეცვლისა და 2FA ავთენტიფიკაციის გზამკვლევი</span>
+            <span class="en">Microsoft 365 Password Update &amp; MFA Setup Guide</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="lang-switch">
+        <label for="lang-ka" class="lang-btn">KA ქართული</label>
+        <label for="lang-en" class="lang-btn">EN English</label>
+      </div>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="steps-indicator">
+        <label for="s1" class="step-pill pill-1"><span class="ka">1. შესვლა</span><span class="en">1. Sign In</span></label>
+        <label for="s2" class="step-pill pill-2"><span class="ka">2. პაროლის შეცვლა</span><span class="en">2. Password</span></label>
+        <label for="s3" class="step-pill pill-3"><span class="ka">3. აპლიკაცია</span><span class="en">3. Get App</span></label>
+        <label for="s4" class="step-pill pill-4"><span class="ka">4. ანგარიში</span><span class="en">4. Add Account</span></label>
+        <label for="s5" class="step-pill pill-5"><span class="ka">5. QR კოდი</span><span class="en">5. Scan QR</span></label>
+        <label for="s6" class="step-pill pill-6"><span class="ka">6. კოდი (38)</span><span class="en">6. Code (38)</span></label>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-panel panel-1">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 1 / 6</span><span class="en">Step 1 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">შედით portal.office.com-ზე უნივერსიტეტის ელფოსტით</span>
+          <span class="en">Sign in to portal.office.com with your KIU Email</span>
+        </h2>
+        <p class="step-desc">
+          <span class="ka">გახსენით ბრაუზერი, გადადით პირდაპირ Microsoft 365-ის პორტალზე და შეიყვანეთ თქვენი ელფოსტა.</span>
+          <span class="en">Open your web browser, go directly to the Microsoft 365 portal, and enter your email address.</span>
+        </p>
+        <ul class="instruction-list">
+          <li><span class="ka">ბრაუზერში აკრიფეთ <strong>portal.office.com</strong>.</span><span class="en">Type <strong>portal.office.com</strong> in your browser.</span></li>
+          <li><span class="ka">შეიყვანეთ თქვენი ელფოსტა (მაგ.: <strong>example@kiu.edu.ge</strong>) და დააწექით <strong>Next</strong>-ს.</span><span class="en">Enter your email address (e.g., <strong>example@kiu.edu.ge</strong>) and click <strong>Next</strong>.</span></li>
+          <li><span class="ka">ჩაწერეთ დროებითი პაროლი და დააწექით <strong>Sign in</strong>-ს.</span><span class="en">Enter your temporary password and click <strong>Sign in</strong>.</span></li>
+        </ul>
+      </div>
+      <div class="mockup-stage">
+        <div class="browser-card">
+          <div class="browser-top">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <div class="url-bar">https://portal.office.com</div>
+          </div>
+          <div class="browser-body">
+            <h4 style="font-size:1.1rem;margin-bottom:10px;">Sign in</h4>
+            <div class="fake-input"><span class="typing-text">example@kiu.edu.ge</span></div>
+            <div style="text-align:right;"><span class="ms-btn">Next</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-panel panel-2">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 2 / 6</span><span class="en">Step 2 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">შეცვალეთ დროებითი პაროლი</span>
+          <span class="en">Update Your Temporary Password</span>
+        </h2>
+        <ul class="instruction-list">
+          <li><span class="ka">პირველ ველში ჩაწერეთ დროებითი პაროლი, ხოლო მეორე და მესამე ველებში — ახალი პაროლი.</span><span class="en">Enter your temporary password, then type and confirm your new password.</span></li>
+          <li><span class="ka"><strong>მნიშვნელოვანი:</strong> პაროლში არ შეიძლება გამოიყენოთ სახელი ან გვარი, რომელიც თქვენს მეილშია.</span><span class="en"><strong>Important:</strong> Your password cannot contain your name or surname from your email.</span></li>
+          <li><span class="ka">მოთხოვნები: მინიმუმ 8 სიმბოლო, დიდი და პატარა ასოები, სპეციალური სიმბოლო (მაგ.: <strong>$!@#%*()</strong>).</span><span class="en">Requirements: 8+ characters, uppercase &amp; lowercase letters, and a symbol.</span></li>
+        </ul>
+        <div class="pwd-checker">
+          <input type="text" placeholder="ტესტი / Test password strength..." oninput="checkPwd(this.value)">
+          <div class="rule-item" id="r1">○ 8+ სიმბოლო / At least 8 characters</div>
+          <div class="rule-item" id="r2">○ დიდი/პატარა ასოები / Upper &amp; lowercase</div>
+          <div class="rule-item" id="r3">○ სპეციალური სიმბოლო / Special symbol</div>
+        </div>
+      </div>
+      <div class="mockup-stage">
+        <div class="browser-card" style="background:#0f2d59;padding:12px;">
+          <div style="background:#fff;border-radius:10px;padding:20px;color:#1e293b;">
+            <h4 style="font-size:1rem;margin-bottom:8px;">Update password</h4>
+            <div class="fake-input"><span class="typing-text">Secur!ty#197</span></div>
+            <div style="font-size:0.75rem;color:#059669;font-weight:600;">✓ Valid password</div>
+            <div style="text-align:right;margin-top:10px;"><span class="ms-btn">Sign in</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel panel-3">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 3 / 6</span><span class="en">Step 3 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">გადმოწერეთ Microsoft Authenticator</span>
+          <span class="en">Download Microsoft Authenticator App</span>
+        </h2>
+        <ul class="instruction-list">
+          <li><span class="ka">კომპიუტერში დააწექით <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
+          <li><span class="ka">ტელეფონში გადმოსაწერად <strong>დააჭირეთ ხელს შესაბამის ღილაკს</strong>:</span><span class="en">To download on your phone, <strong>tap the button below</strong>:</span></li>
+        </ul>
+        <div class="app-download-grid">
+          <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator" target="_blank" class="store-link-btn">🤖 Google Play</a>
+          <a href="https://apps.apple.com/app/microsoft-authenticator/id983156458" target="_blank" class="store-link-btn"> App Store</a>
+        </div>
+      </div>
+      <div class="mockup-stage">
+        <div class="browser-card" style="text-align:center;padding:15px;">
+          <div class="realistic-qr-container">
+            <div class="scan-laser"></div>
+            <div class="qr-grid-sim">
+              <div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell corner-bl"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+            </div>
+          </div>
+          <span class="ms-btn">Next</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-panel panel-4">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 4 / 6</span><span class="en">Step 4 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">აირჩიეთ Work or school account</span>
+          <span class="en">Select "Work or school account"</span>
+        </h2>
+        <ul class="instruction-list">
+          <li><span class="ka">აპლიკაციაში დააწექით <strong>+</strong> ღილაკს.</span><span class="en">Tap the <strong>+</strong> icon in the app.</span></li>
+          <li><span class="ka">აირჩიეთ <strong>Work or school account</strong>.</span><span class="en">Select <strong>Work or school account</strong>.</span></li>
+          <li><span class="ka">მიაკითხეთ <strong>Scan QR code</strong>-ს.</span><span class="en">Choose <strong>Scan QR code</strong>.</span></li>
+        </ul>
+      </div>
+      <div class="mockup-stage">
+        <div class="browser-card" style="max-width:240px;background:#1e293b;color:#fff;padding:12px;">
+          <div style="background:#0067b8;padding:8px;font-size:0.8rem;font-weight:600;">+ Add account</div>
+          <div style="padding:10px;font-size:0.75rem;">
+            <div style="padding:6px;opacity:0.5;">Personal account</div>
+            <div style="padding:8px;background:rgba(56,189,248,0.2);border:1px solid #38bdf8;border-radius:6px;margin:4px 0;font-weight:600;">Work or school account</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step-panel panel-5">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 5 / 6</span><span class="en">Step 5 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">დაასკანერეთ QR კოდი</span>
+          <span class="en">Scan the QR Code</span>
+        </h2>
+        <ul class="instruction-list">
+          <li><span class="ka">ტელეფონის კამერით დაასკანერეთ კომპიუტერზე ნაჩვენები QR კოდი.</span><span class="en">Use your phone to scan the QR code on your PC screen.</span></li>
+          <li><span class="ka">კომპიუტერში დააწექით <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
+        </ul>
+      </div>
+      <div class="mockup-stage">
+        <div class="browser-card" style="text-align:center;padding:15px;">
+          <div class="realistic-qr-container">
+            <div class="scan-laser"></div>
+            <div class="qr-grid-sim">
+              <div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell corner-tl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div><div class="qr-cell corner-tr"></div>
+              <div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+              <div class="qr-cell corner-bl"></div><div class="qr-cell corner-bl"></div><div class="qr-cell corner-bl"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div><div class="qr-cell dark"></div>
+            </div>
+          </div>
+          <span class="ms-btn">Next</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step-panel panel-6">
+      <div>
+        <span class="phase-tag"><span class="ka">ნაბიჯი 6 / 6</span><span class="en">Step 6 of 6</span></span>
+        <h2 class="step-title">
+          <span class="ka">დაადასტურეთ შესვლა ორნიშნა კოდით</span>
+          <span class="en">Approve Sign-in with the 2-Digit Number</span>
+        </h2>
+        <ul class="instruction-list">
+          <li><span class="ka">ჩაწერეთ ტელეფონში ეკრანზე გამოტანილი ციფრი (მაგ: <strong>38</strong>) და მიაკლიკეთ <strong>YES</strong>-ს.</span><span class="en">Enter the number shown on screen (e.g., <strong>38</strong>) into your phone and tap <strong>YES</strong>.</span></li>
+          <li><span class="ka">კომპიუტერზე დააჭირეთ <strong>Done</strong>-ს. რეგისტრაცია დასრულებულია!</span><span class="en">Click <strong>Done</strong> on your PC. Setup complete!</span></li>
+        </ul>
+      </div>
+      <div class="mockup-stage">
+        <div class="dual-code">
+          <div class="code-box-card">
+            <div style="font-size:0.7rem;color:#64748b;">PC Screen</div>
+            <div class="num-badge">38</div>
+          </div>
+          <div class="code-box-card dark">
+            <div style="font-size:0.7rem;color:#94a3b8;">Phone App</div>
+            <div class="num-badge" style="color:#38bdf8;">38</div>
+            <span class="ms-btn" style="padding:3px 10px;font-size:0.7rem;">YES</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Navigation Controls -->
+    <div class="footer-nav">
+      <div class="nav-row nav-1"><span></span><label for="s2" class="nav-btn btn-next"><span class="ka">შემდეგი →</span><span class="en">Next →</span></label></div>
+      <div class="nav-row nav-2"><label for="s1" class="nav-btn btn-prev"><span class="ka">← წინა</span><span class="en">← Prev</span></label><label for="s3" class="nav-btn btn-next"><span class="ka">შემდეგი →</span><span class="en">Next →</span></label></div>
+      <div class="nav-row nav-3"><label for="s2" class="nav-btn btn-prev"><span class="ka">← წინა</span><span class="en">← Prev</span></label><label for="s4" class="nav-btn btn-next"><span class="ka">შემდეგი →</span><span class="en">Next →</span></label></div>
+      <div class="nav-row nav-4"><label for="s3" class="nav-btn btn-prev"><span class="ka">← წინა</span><span class="en">← Prev</span></label><label for="s5" class="nav-btn btn-next"><span class="ka">შემდეგი →</span><span class="en">Next →</span></label></div>
+      <div class="nav-row nav-5"><label for="s4" class="nav-btn btn-prev"><span class="ka">← წინა</span><span class="en">← Prev</span></label><label for="s6" class="nav-btn btn-next"><span class="ka">შემდეგი →</span><span class="en">Next →</span></label></div>
+      <div class="nav-row nav-6"><label for="s5" class="nav-btn btn-prev"><span class="ka">← წინა</span><span class="en">← Prev</span></label><label for="s1" class="nav-btn btn-next"><span class="ka">თავიდან ↺</span><span class="en">Restart ↺</span></label></div>
+    </div>
+  </div>
+
+  <!-- Security & Password Script -->
+  <script>
+    // კოდის დაცვის სკრიპტი (მარჯვენა კლიკისა და F12 ბლოკირება)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+      }
+    });
+
+    function checkPwd(v) {
+      var l = v.length >= 8;
+      var c = /[a-z]/.test(v) && /[A-Z]/.test(v);
+      var s = /[^A-Za-z0-9]/.test(v);
+      document.getElementById('r1').className = l ? 'rule-item valid' : 'rule-item';
+      document.getElementById('r2').className = c ? 'rule-item valid' : 'rule-item';
+      document.getElementById('r3').className = s ? 'rule-item valid' : 'rule-item';
+    }
+  </script>
+</body>
+</html>
