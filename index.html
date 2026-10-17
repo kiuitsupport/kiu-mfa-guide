@@ -160,6 +160,15 @@
       font-weight: bold; display: flex; align-items: center; justify-content: center;
     }
 
+    .instruction-list a {
+      color: var(--ms-blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .instruction-list a:hover {
+      text-decoration: underline;
+    }
+
     .pwd-checker {
       background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 10px; margin-top: 10px;
     }
@@ -168,11 +177,6 @@
     }
     .rule-item { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
     .rule-item.valid { color: var(--accent); font-weight: 600; }
-
-    .alert-box {
-      background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px 14px;
-      border-radius: 8px; font-size: 0.8rem; color: #92400e; margin-top: 12px; line-height: 1.45;
-    }
 
     .app-download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
     .store-link-btn {
@@ -257,7 +261,7 @@
   <input type="radio" name="lang" id="lang-ka" class="state-ctrl">
   <input type="radio" name="lang" id="lang-en" class="state-ctrl" checked>
 
-  <!-- Step State Radios (5 Steps total, clean corporate flow) -->
+  <!-- Step State Radios -->
   <input type="radio" name="step" id="s1" class="state-ctrl" checked>
   <input type="radio" name="step" id="s2" class="state-ctrl">
   <input type="radio" name="step" id="s3" class="state-ctrl">
@@ -305,17 +309,26 @@
       <div>
         <span class="phase-tag"><span class="ka">ნაბიჯი 1 / 5</span><span class="en">Step 1 of 5</span></span>
         <h2 class="step-title">
-          <span class="ka">შედით portal.office.com-ზე უნივერსიტეტის ელფოსტით</span>
-          <span class="en">Sign in to portal.office.com with your KIU Email</span>
+          <span class="ka">გამოიყენეთ კომპიუტერი ან ლეპტოპი შესასვლელად</span>
+          <span class="en">Use a PC or Laptop to Sign In</span>
         </h2>
         <p class="step-desc">
-          <span class="ka">გახსენით ბრაუზერი, გადადით Microsoft 365-ის პორტალზე და შეიყვანეთ თქვენი ელფოსტა.</span>
-          <span class="en">Open your web browser, go to the Microsoft 365 portal, and enter your email address.</span>
+          <span class="ka">გახსენით ვებ-ბრაუზერი თქვენს კომპიუტერზე ან ლეპტოპზე, გადადით Microsoft 365 პორტალზე და შეიყვანეთ ელფოსტა.</span>
+          <span class="en">Open your web browser on your PC or Laptop, go directly to the Microsoft 365 portal, and enter your email address.</span>
         </p>
         <ul class="instruction-list">
-          <li><span class="ka">ბრაუზერში აკრიფეთ <strong>portal.office.com</strong>.</span><span class="en">Type <strong>portal.office.com</strong> in your browser.</span></li>
-          <li><span class="ka">შეიყვანეთ თქვენი ელფოსტა (მაგ.: <strong>example@kiu.edu.ge</strong>) და დააწექით <strong>Next</strong>-ს.</span><span class="en">Enter your email address (e.g., <strong>example@kiu.edu.ge</strong>) and click <strong>Next</strong>.</span></li>
-          <li><span class="ka">ჩაწერეთ დროებითი პაროლი და დააწექით <strong>Sign in</strong>-ს.</span><span class="en">Enter your temporary password and click <strong>Sign in</strong>.</span></li>
+          <li>
+            <span class="ka">ბრაუზერში აკრიფეთ: Type <a href="https://portal.office.com" target="_blank">portal.office.com</a> (გამოიყენეთ კომპიუტერი / ლეპტოპი).</span>
+            <span class="en">Type <a href="https://portal.office.com" target="_blank">portal.office.com</a> in your browser (Please use a PC or Laptop).</span>
+          </li>
+          <li>
+            <span class="ka">შეიყვანეთ თქვენი ელფოსტა (მაგ.: <strong>example@kiu.edu.ge</strong>) და დააწექით <strong>Next</strong>-ს.</span>
+            <span class="en">Enter your email address (e.g., <strong>example@kiu.edu.ge</strong>) and click <strong>Next</strong>.</span>
+          </li>
+          <li>
+            <span class="ka">ჩაწერეთ დროებითი პაროლი და დააწექით <strong>Sign in</strong>-ს.</span>
+            <span class="en">Enter your temporary password and click <strong>Sign in</strong>.</span>
+          </li>
         </ul>
       </div>
       <div class="mockup-stage">
@@ -374,8 +387,8 @@
           <span class="en">Download Microsoft Authenticator App</span>
         </h2>
         <ul class="instruction-list">
-          <li><span class="ka">კომპიუტერში დააწექით <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
-          <li><span class="ka">ტელეფონში გადმოსაწერად <strong>დააჭირეთ ხელს შესაბამის ღილაკს</strong>:</span><span class="en">To download on your phone, <strong>tap the button below</strong>:</span></li>
+          <li><span class="ka">კომპიუტერზე დააწექით <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
+          <li><span class="ka">ტელეფონში გადმოსაწერად <strong>დააჭირეთ შესაბამის ღილაკს</strong>:</span><span class="en">To download on your phone, <strong>tap the button below</strong>:</span></li>
         </ul>
         <div class="app-download-grid">
           <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator" target="_blank" class="store-link-btn">🤖 Google Play</a>
@@ -412,7 +425,7 @@
         <ul class="instruction-list">
           <li><span class="ka">აპლიკაციაში დააწექით <strong>+</strong> ღილაკს და აირჩიეთ <strong>Work or school account</strong>.</span><span class="en">Tap <strong>+</strong> in the app and select <strong>Work or school account</strong>.</span></li>
           <li><span class="ka">აირჩიეთ <strong>Scan QR code</strong> და ტელეფონის კამერით დაასკანერეთ კომპიუტერზე ნაჩვენები QR.</span><span class="en">Choose <strong>Scan QR code</strong> and scan the code on your PC screen.</span></li>
-          <li><span class="ka">კომპიუტერზე დააჭირეთ <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
+          <li><span class="ka">კომპიუტერზე დააწექით <strong>Next</strong>-ს.</span><span class="en">Click <strong>Next</strong> on your PC.</span></li>
         </ul>
       </div>
       <div class="mockup-stage">
@@ -443,8 +456,8 @@
           <span class="en">Approve Sign-in with the 2-Digit Number</span>
         </h2>
         <ul class="instruction-list">
-          <li><span class="ka">ჩაწერეთ ტელეფონში ეკრანზე გამოტანილი ციფრი (მაგ: <strong>38</strong>) და მიაკლიკეთ <strong>YES</strong>-ს.</span><span class="en">Enter the number shown on screen (e.g., <strong>38</strong>) into your phone and tap <strong>YES</strong>.</span></li>
-          <li><span class="ka">კომპიუტერზე დააჭირეთ <strong>Done</strong>-ს. რეგისტრაცია დასრულებულია!</span><span class="en">Click <strong>Done</strong> on your PC. Setup complete!</span></li>
+          <li><span class="ka">ჩაწერეთ ტელეფონში ეკრანზე გამოტანილი ციფრი (მაგ: <strong>38</strong>) და დააწექით <strong>YES</strong>-ს.</span><span class="en">Enter the number shown on screen (e.g., <strong>38</strong>) into your phone and tap <strong>YES</strong>.</span></li>
+          <li><span class="ka">კომპიუტერზე დააწექით <strong>Done</strong>-ს. რეგისტრაცია დასრულებულია!</span><span class="en">Click <strong>Done</strong> on your PC. Setup complete!</span></li>
         </ul>
       </div>
       <div class="mockup-stage">
