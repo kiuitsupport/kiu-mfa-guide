@@ -118,7 +118,7 @@
       grid-template-columns: 1.1fr 0.9fr;
       gap: 30px;
       padding: 34px 32px;
-      min-height: 500px;
+      min-height: 520px;
       align-items: center;
       animation: fadeIn 0.3s ease;
     }
@@ -237,8 +237,8 @@
     .mockup-stage {
       background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
       border-radius: 16px;
-      padding: 20px;
-      min-height: 430px;
+      padding: 18px;
+      min-height: 450px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -258,7 +258,7 @@
       .dual-stage-grid { grid-template-columns: 1fr; }
     }
 
-    /* Exact KIU Microsoft Auth Modal Replica */
+    /* Exact KIU & Microsoft Auth Modal Replica */
     .ms-auth-card {
       background: #ffffff;
       color: #1b1b1b;
@@ -266,7 +266,7 @@
       max-width: 340px;
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.45);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -274,18 +274,18 @@
     }
 
     .ms-auth-body {
-      padding: 22px 24px 18px;
+      padding: 20px 24px 16px;
     }
 
     .kiu-mini-header {
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .kiu-mini-text {
-      font-size: 0.45rem;
+      font-size: 0.44rem;
       font-weight: 800;
       color: #0b2545;
       line-height: 1.05;
@@ -296,14 +296,14 @@
     .ms-email-row {
       font-size: 0.76rem;
       color: #1b1b1b;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .ms-heading {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 600;
       color: #1b1b1b;
       margin-bottom: 8px;
@@ -323,7 +323,7 @@
       padding: 5px 0;
       font-size: 0.76rem;
       color: #666;
-      margin-bottom: 11px;
+      margin-bottom: 10px;
       background: transparent;
     }
 
@@ -332,26 +332,89 @@
       color: #1b1b1b;
     }
 
+    /* Interactive Typing Animation for Step 1 */
+    .typing-email-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1.5px solid var(--ms-blue);
+      padding: 4px 0;
+      margin-bottom: 8px;
+      min-height: 24px;
+    }
+
+    .typing-email {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 0.78rem;
+      color: #1b1b1b;
+      font-weight: 500;
+      border-right: 2px solid var(--ms-blue);
+      animation: typeEmail 3.2s steps(20, end) infinite alternate;
+    }
+
+    @keyframes typeEmail {
+      0%, 10% { max-width: 0; }
+      65%, 100% { max-width: 190px; }
+    }
+
+    .typing-pwd {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      color: #1b1b1b;
+      letter-spacing: 2px;
+      border-right: 2px solid var(--ms-blue);
+      animation: typePwd 3.2s steps(12, end) infinite alternate;
+    }
+
+    @keyframes typePwd {
+      0%, 25% { max-width: 0; }
+      75%, 100% { max-width: 130px; }
+    }
+
+    .input-hint-label {
+      font-size: 0.62rem;
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .flow-arrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #e0f2fe;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 99px;
+      margin: 6px 0;
+    }
+
     .ms-link {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: #0067b8;
       text-decoration: none;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .ms-btn-row {
       display: flex;
       justify-content: flex-end;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
     .ms-primary-btn {
       background: #0067b8;
       color: #ffffff;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 600;
-      padding: 6px 22px;
+      padding: 5px 22px;
       border-radius: 2px;
       border: none;
       display: inline-block;
@@ -359,13 +422,13 @@
 
     .ms-auth-footer {
       background: #f2f2f2;
-      padding: 10px 24px;
-      font-size: 0.72rem;
+      padding: 8px 24px;
+      font-size: 0.68rem;
       color: #555555;
       border-top: 1px solid #e5e5e5;
     }
 
-    /* Mobile Phone Screen Replicas (Matching New Screenshots) */
+    /* Mobile Phone Screen Replicas */
     .phone-screen-card {
       background: #f2f2f7;
       color: #000000;
@@ -676,7 +739,7 @@
   <input type="radio" name="lang" id="lang-ka" class="state-ctrl">
   <input type="radio" name="lang" id="lang-en" class="state-ctrl" checked>
 
-  <!-- Step State Radios (8 Detailed Steps matching every PC & Mobile screenshot) -->
+  <!-- Step State Radios (8 Detailed Steps) -->
   <input type="radio" name="step" id="s1" class="state-ctrl" checked>
   <input type="radio" name="step" id="s2" class="state-ctrl">
   <input type="radio" name="step" id="s3" class="state-ctrl">
@@ -722,54 +785,89 @@
       </div>
     </div>
 
-    <!-- ================= STEP 1: Enter Password ================= -->
+    <!-- ================= STEP 1: Sign in (Email) + Enter Password (KIU) ================= -->
     <div class="step-panel panel-1">
       <div>
         <span class="phase-tag"><span class="ka">ნაბიჯი 1 / 8 • საწყისი ავტორიზაცია</span><span class="en">Step 1 of 8 • Initial Sign-In</span></span>
         <h2 class="step-title">
-          <span class="ka">გახსენით პორტალი კომპიუტერზე (PC / Laptop) და შეიყვანეთ დროებითი პაროლი</span>
-          <span class="en">Open Portal on PC / Laptop &amp; Enter Temporary Password</span>
+          <span class="ka">შედით portal.office.com-ზე თქვენი KIU-ს ელფოსტით</span>
+          <span class="en">Sign in to portal.office.com with your KIU Email</span>
         </h2>
         <p class="step-desc">
-          <span class="ka">ანგარიშის გასააქტიურებლად აუცილებლად გამოიყენეთ <strong>კომპიუტერი ან ლეპტოპი (PC / Laptop)</strong>, რადგან მომდევნო ეტაპზე კომპიუტერის ეკრანიდან QR კოდის ტელეფონით დასკანერება დაგჭირდებათ.</span>
-          <span class="en">Please use a <strong>PC or Laptop</strong> to complete this setup, as you will need to scan a QR code from your computer screen with your phone in a later step.</span>
+          <span class="ka">ანგარიშის გასააქტიურებლად აუცილებლად გამოიყენეთ <strong>კომპიუტერი ან ლეპტოპი (PC / Laptop)</strong>. გახსენით ვებ-ბრაუზერი, გადადით პირდაპირ Microsoft 365-ის პორტალზე და შეიყვანეთ თქვენი ელფოსტა და დროებითი პაროლი.</span>
+          <span class="en">Please use a <strong>PC or Laptop</strong> for activation. Open your web browser, go directly to the Microsoft 365 portal, and enter your email address and temporary password.</span>
         </p>
         <ul class="instruction-list">
           <li>
-            <span class="ka">ბრაუზერში აკრიფეთ <a href="https://portal.office.com" target="_blank">portal.office.com</a> (ან დააჭირეთ ბმულს).</span>
-            <span class="en">Type <a href="https://portal.office.com" target="_blank">portal.office.com</a> in your web browser (or click the link).</span>
+            <span class="ka">ბრაუზერში აკრიფეთ <a href="https://portal.office.com" target="_blank">portal.office.com</a>.</span>
+            <span class="en">Type <a href="https://portal.office.com" target="_blank">portal.office.com</a> in your browser.</span>
           </li>
           <li>
-            <span class="ka">პირველ ველში შეიყვანეთ თქვენი უნივერსიტეტის ელფოსტა (მაგ.: <strong>example@kiu.edu.ge</strong>) და დააწექით ღილაკს <strong>Next</strong>.</span>
-            <span class="en">Enter your KIU email address (e.g., <strong>example@kiu.edu.ge</strong>) and click <strong>Next</strong>.</span>
+            <span class="ka">გახსნილ <strong>Sign in</strong> ფანჯარაში (<em>Email, phone, or Skype</em>) შეიყვანეთ თქვენი ელფოსტა (მაგ.: <strong>example@kiu.edu.ge</strong>) და დააწექით <strong>Next</strong>-ს (როგორც მარჯვნივ ზედა ფანჯარაშია).</span>
+            <span class="en">In the <strong>Sign in</strong> window (<em>Email, phone, or Skype</em>), enter your email address (e.g., <strong>example@kiu.edu.ge</strong>) and click <strong>Next</strong> (shown in the top card on the right).</span>
           </li>
           <li>
-            <span class="ka">გაიხსნება KIU-ს ავტორიზაციის ფანჯარა წარწერით <strong>„Enter password“</strong> (როგორც მარჯვენა სურათზეა ნაჩვენები). <strong>Password</strong> ველში ჩაწერეთ თქვენთვის გადმოცემული <strong>დროებითი პაროლი</strong> და დააწექით ლურჯ ღილაკს <strong>Sign in</strong>.</span>
-            <span class="en">On the KIU <strong>"Enter password"</strong> screen (shown on the right), type your <strong>temporary password</strong> into the <strong>Password</strong> field and click <strong>Sign in</strong>.</span>
+            <span class="ka">გადახვალთ KIU-ს გვერდზე <strong>„Enter password“</strong> (სადაც უკვე მითითებულია <em>← example@kiu.edu.ge</em>). <strong>Password</strong> ველში ჩაწერეთ თქვენი დროებითი პაროლი და დააწექით <strong>Sign in</strong>-ს (როგორც მარჯვნივ ქვედა ფანჯარაშია).</span>
+            <span class="en">On the KIU <strong>"Enter password"</strong> screen (showing <em>← example@kiu.edu.ge</em>), enter your temporary password and click <strong>Sign in</strong> (shown in the bottom card on the right).</span>
           </li>
         </ul>
       </div>
 
-      <!-- Exact Replica of Image 1 (Enter password) -->
+      <!-- Dual Interactive Stage: 1. Microsoft Sign In (Email) -> 2. KIU Enter Password -->
       <div class="mockup-stage">
-        <div class="ms-auth-card">
-          <div class="ms-auth-body">
-            <div class="kiu-mini-header">
-              <svg viewBox="0 0 100 100" width="22" height="22">
+        <!-- Card 1: Microsoft Sign in (Email, phone, or Skype) with Interactive Typing -->
+        <div class="ms-auth-card" style="max-width:330px;">
+          <div class="ms-auth-body" style="padding:14px 20px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <svg viewBox="0 0 23 23" width="15" height="15">
+                <path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/>
+                <path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/>
+              </svg>
+              <span style="font-size:0.78rem;font-weight:600;color:#555;">Microsoft</span>
+            </div>
+            <div class="ms-heading" style="font-size:1.05rem;margin-bottom:6px;">Sign in</div>
+            <div class="typing-email-wrap">
+              <span class="typing-email">example@kiu.edu.ge</span>
+              <span class="input-hint-label">Email, phone, or Skype</span>
+            </div>
+            <div style="font-size:0.64rem;color:#1b1b1b;margin-bottom:3px;">
+              No account? <span style="color:#0067b8;">Create one!</span>
+            </div>
+            <div style="font-size:0.64rem;color:#0067b8;margin-bottom:6px;">Can't access your account?</div>
+            <div class="ms-btn-row" style="margin-top:4px;">
+              <span class="ms-primary-btn" style="padding:4px 20px;">Next</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transition Indicator -->
+        <div class="flow-arrow-pill">
+          <span class="ka">↓ Next-ზე დაჭერის შემდეგ შეიყვანეთ პაროლი ↓</span>
+          <span class="en">↓ After clicking Next, enter password ↓</span>
+        </div>
+
+        <!-- Card 2: KIU Enter Password Screen with Interactive Typing -->
+        <div class="ms-auth-card" style="max-width:330px;">
+          <div class="ms-auth-body" style="padding:14px 20px 12px;">
+            <div class="kiu-mini-header" style="margin-bottom:6px;">
+              <svg viewBox="0 0 100 100" width="18" height="18">
                 <circle cx="29" cy="24" r="8" fill="#0b2545"/><circle cx="29" cy="50" r="8" fill="#134074"/><circle cx="29" cy="76" r="8" fill="#0b2545"/>
                 <path d="M58 16.5 L79 16.5 L54.5 41 A7.4 7.4 0 0 1 44 30.5 Z" fill="#134074"/><path d="M58 83.5 L79 83.5 L54.5 59 A7.4 7.4 0 0 0 44 69.5 Z" fill="#0b2545"/>
               </svg>
               <div class="kiu-mini-text">KUTAISI<br>INTERNATIONAL<br>UNIVERSITY</div>
             </div>
-            <div class="ms-email-row">← example@kiu.edu.ge</div>
-            <div class="ms-heading">Enter password</div>
-            <div class="ms-line-input active">Password</div>
-            <span class="ms-link">Forgot my password</span>
-            <div class="ms-btn-row">
-              <span class="ms-primary-btn">Sign in</span>
+            <div class="ms-email-row" style="font-size:0.72rem;margin-bottom:4px;">← example@kiu.edu.ge</div>
+            <div class="ms-heading" style="font-size:1.02rem;margin-bottom:6px;">Enter password</div>
+            <div class="typing-email-wrap">
+              <span class="typing-pwd">••••••••••</span>
+              <span class="input-hint-label">Password</span>
+            </div>
+            <span class="ms-link" style="font-size:0.64rem;margin-bottom:4px;">Forgot my password</span>
+            <div class="ms-btn-row" style="margin-top:4px;">
+              <span class="ms-primary-btn" style="padding:4px 18px;">Sign in</span>
             </div>
           </div>
-          <div class="ms-auth-footer">Kutaisi International University</div>
+          <div class="ms-auth-footer" style="padding:6px 20px;font-size:0.65rem;">Kutaisi International University</div>
         </div>
       </div>
     </div>
@@ -1000,7 +1098,6 @@
             </div>
             <div class="ms-email-row">example@kiu.edu.ge</div>
             <div class="ms-heading" style="font-size:1.05rem;">Install Microsoft Authenticator</div>
-            <!-- Blue Shield Padlock SVG -->
             <div style="text-align:center;margin:8px 0;">
               <svg viewBox="0 0 120 120" width="76" height="76">
                 <path d="M35 45 V32 C35 18 85 18 85 32 V45" fill="none" stroke="#1b4f9c" stroke-width="14" stroke-linecap="round"/>
@@ -1058,7 +1155,6 @@
       <!-- Dual Stage: PC "Set up your account in app" + Exact Mobile "Add account" Screenshot Replica -->
       <div class="mockup-stage">
         <div class="dual-stage-grid">
-          <!-- Left: PC Card -->
           <div class="ms-auth-card" style="max-width:210px;">
             <div class="ms-auth-body" style="padding:14px;">
               <div style="font-size:0.55rem;color:#64748b;font-weight:700;margin-bottom:4px;">PC SCREEN</div>
@@ -1079,7 +1175,6 @@
             </div>
           </div>
 
-          <!-- Right: Exact Mobile Screenshot Replica (Add account + Work or school account + Scan QR code popup) -->
           <div class="phone-screen-card">
             <div>
               <div class="phone-top-blue">
@@ -1111,7 +1206,6 @@
               </div>
             </div>
 
-            <!-- Bottom Popup Sheet: Add work or school account -->
             <div class="ios-action-sheet">
               <div class="ios-sheet-group">
                 <div class="ios-sheet-header">Add work or school account</div>
@@ -1158,7 +1252,6 @@
       <!-- Dual Stage: PC QR + Code 41 Card AND Exact Mobile "Approve this sign-in?" with [4][1] -->
       <div class="mockup-stage">
         <div class="dual-stage-grid">
-          <!-- Left: PC QR & Number 41 Card -->
           <div class="ms-auth-card" style="max-width:205px;">
             <div class="ms-auth-body" style="padding:14px;">
               <div style="font-size:0.55rem;color:#64748b;font-weight:700;margin-bottom:2px;">PC SCREEN</div>
@@ -1185,30 +1278,25 @@
             </div>
           </div>
 
-          <!-- Right: Exact Mobile "Approve this sign-in?" Screenshot Replica with [4] [1] -->
           <div class="approve-phone-card">
             <div class="approve-body">
               <div class="approve-title">Approve this sign-in?</div>
               <div class="approve-sub">Enter the number shown on the sign-in screen.<br>Only approve if you're trying to sign in.</div>
-              <!-- ID Badge Icon -->
               <div style="color:#9ca3af;font-size:0.85rem;line-height:1;">🪪</div>
               <div class="approve-org">Kutaisi International University</div>
               <div class="approve-email">example@kiu.edu.ge</div>
 
-              <!-- Two Digit Boxes showing 4 and 1 -->
               <div class="digit-boxes-wrap">
                 <div class="digit-box">4</div>
                 <div class="digit-box focused">1</div>
               </div>
 
-              <!-- Deny & Blue Approve Buttons -->
               <div class="approve-actions-row">
                 <div class="btn-deny-ios">Deny</div>
                 <div class="btn-approve-ios">Approve</div>
               </div>
             </div>
 
-            <!-- iOS Bottom Numeric Keypad -->
             <div class="ios-keypad">
               <div class="key-cell"><span class="key-num">1</span><span class="key-let">&nbsp;</span></div>
               <div class="key-cell"><span class="key-num">2</span><span class="key-let">ABC</span></div>
@@ -1258,7 +1346,6 @@
 
       <!-- Exact Replica of Image 7 (Authenticator Added) + Image 8 (Copilot with Red-Circled 9-Dots) -->
       <div class="mockup-stage" style="gap:12px;">
-        <!-- Top Card: Authenticator Added -->
         <div class="ms-auth-card" style="max-width:350px;">
           <div class="ms-auth-body" style="padding:14px 20px;">
             <div class="ms-email-row" style="font-size:0.7rem;margin-bottom:4px;">example@kiu.edu.ge</div>
@@ -1273,12 +1360,10 @@
           </div>
         </div>
 
-        <!-- Bottom Card: Copilot Dark Interface with Red-Circled 9-Dots Menu -->
         <div class="copilot-window">
           <div class="copilot-top">
             <div style="display:flex;align-items:center;gap:10px;">
               <strong style="font-size:0.8rem;color:#fff;">Copilot</strong>
-              <!-- Red-Circled 9-Dots App Launcher -->
               <div class="waffle-red-circle" title="App Launcher (Cloud Apps)">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="#ffffff">
                   <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
